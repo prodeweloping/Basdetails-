@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <link rel="icon" type="image/png" href="Pro.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bus Details</title>
+  <!-- Font Awesome for icons (black) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(145deg, #f0f5ff 0%, #e6edf7 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 16px 40px;
+    }
+
+    /* 3D HEADER */
+    header {
+      width: 100%;
+      max-width: 1200px;
+      margin: 20px 0 30px;
+      background: linear-gradient(135deg, #1e2b5e, #0f1a3f);
+      color: white;
+      padding: 24px 32px;
+      border-radius: 48px 48px 48px 48px;
+      box-shadow: 
+        0 20px 30px -10px rgba(0, 20, 60, 0.4),
+        inset 0 -3px 0 rgba(255,255,255,0.1),
+        inset 0 2px 10px rgba(255,255,255,0.3);
+      font-size: 2.2rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      position: relative;
+      transform: perspective(800px) rotateX(1deg);
+      backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    header span {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    #loginBtn, #logoutBtn {
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: white;
+      padding: 10px 28px;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.3);
+      transition: all 0.2s ease;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    #loginBtn:hover, #logoutBtn:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    }
+
+    /* CENTERED ROUTE BUTTONS */
+    .route-buttons {
+      display: flex;
+      gap: 25px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 30px 0 20px;
+    }
+
+    .route-btn {
+      background: #ffffffcc;
+      backdrop-filter: blur(12px);
+      border: none;
+      padding: 20px 45px;
+      border-radius: 80px;
+      font-size: 1.7rem;
+      font-weight: 700;
+      color: #0a1a3a;
+      box-shadow: 
+        0 25px 35px -10px rgba(0,30,80,0.3),
+        inset 0 -5px 0 rgba(0,0,0,0.1),
+        inset 0 5px 10px rgba(255,255,255,0.8);
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid rgba(255,255,255,0.6);
+      transform: perspective(600px) rotateX(2deg);
+    }
+
+    .route-btn:hover {
+      transform: perspective(600px) rotateX(0deg) translateY(-8px);
+      box-shadow: 0 35px 40px -10px #00246b;
+      background: white;
+    }
+
+    /* BACK BUTTON */
+    .back-btn {
+      background: #ffffffd9;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 60px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 -3px 0 #c5d0e0;
+      margin: 10px 0 20px;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .back-btn:hover {
+      background: white;
+      transform: scale(1.02);
+      box-shadow: 0 15px 25px rgba(0, 50, 100, 0.3);
+    }
+
+    /* ROUTE TITLE */
+    #routeTitle {
+      color: #102a4c;
+      font-size: 2.5rem;
+      font-weight: 700;
+      text-shadow: 0 5px 12px rgba(0,60,130,0.2);
+      margin: 10px 0 25px;
+      letter-spacing: -0.5px;
+    }
+
+    /* 3D BUS CARDS */
+    .bus-card {
+      background: #ffffffea;
+      backdrop-filter: blur(10px);
+      margin: 20px auto;
+      padding: 28px 30px;
+      width: 100%;
+      max-width: 520px;
+      border-radius: 48px;
+      box-shadow: 
+        0 35px 50px -20px #001e3e,
+        0 0 0 1px rgba(255,255,255,0.8) inset,
+        0 -5px 0 rgba(0,0,0,0.1) inset;
+      transform: perspective(1200px) rotateY(0deg) rotateX(1deg);
+      transition: 0.25s;
+      text-align: left;
+      border-left: 8px solid #ffb347;
+      position: relative;
+    }
+
+    .bus-card:hover {
+      transform: perspective(1200px) rotateY(2deg) rotateX(1deg) translateY(-8px) translateZ(15px);
+      box-shadow: 0 45px 60px -15px #002856;
+    }
+
+    .bus-card h3 {
+      color: #0a2540;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Icons in black */
+    .bus-card i {
+      color: #000;
+      font-size: 1.5rem;
+      width: 32px;
+    }
+
+    .bus-card p {
+      font-size: 1.3rem;
+      margin: 8px 0;
+      color: #1f3a5f;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bus-card p b {
+      color: #0d3f7a;
+      min-width: 90px;
+    }
+
+    /* Delete button (only visible to admin) */
+    .delete-btn {
+      position: absolute;
+      top: 20px;
+      right: 25px;
+      background: #ff4d4d;
+      color: white;
+      border: none;
+      border-radius: 50px;
+      padding: 8px 16px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 5px 12px rgba(255,0,0,0.3);
+      transition: 0.1s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .delete-btn i {
+      color: white !important;  /* override black for icon inside button */
+      font-size: 1rem;
+    }
+
+    .delete-btn:hover {
+      background: #cc0000;
+      transform: scale(1.05);
+    }
+
+    /* EMPTY STATE */
+    .empty-msg {
+      font-size: 1.8rem;
+      background: rgba(255,255,255,0.6);
+      backdrop-filter: blur(6px);
+      padding: 30px 50px;
+      border-radius: 80px;
+      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
+      color: #2b4a73;
+      font-weight: 500;
+    }
+
+    /* LOGIN / ADMIN PANELS with 3D GLASS */
+    .glass-panel {
+      background: rgba(255, 255, 255, 0.7);
+      backdrop-filter: blur(16px);
+      border-radius: 70px;
+      padding: 40px 30px;
+      box-shadow: 
+        0 35px 60px -15px #001e3e,
+        inset 0 2px 10px rgba(255,255,255,0.8),
+        inset 0 -6px 0 rgba(0,0,0,0.05);
+      width: 90%;
+      max-width: 650px;
+      margin: 30px auto;
+      border: 1px solid rgba(255,255,255,0.6);
+      transform: perspective(800px) rotateX(1deg);
+    }
+
+    #loginBox, #adminPanel {
+      display: none; /* hidden by default */
+    }
+
+    #loginBox h3, #adminPanel h3 {
+      color: #0f283d;
+      font-size: 2.3rem;
+      margin-bottom: 25px;
+      font-weight: 700;
+      text-shadow: 0 2px 5px rgba(255,255,255,0.8);
+    }
+
+    input, select {
+      background: rgba(255,255,255,0.8);
+      border: 2px solid rgba(255,255,255,0.9);
+      padding: 16px 25px;
+      margin: 10px;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      width: 250px;
+      max-width: 90%;
+      box-shadow: inset 0 3px 8px rgba(0,0,0,0.05), 0 8px 15px rgba(0,20,50,0.1);
+      transition: 0.2s;
+      outline: none;
+      font-weight: 500;
+    }
+
+    input:focus, select:focus {
+      border-color: #07478b;
+      box-shadow: 0 0 0 5px rgba(0,98,255,0.2), inset 0 2px 5px #0000001a;
+      background: white;
+    }
+
+    .admin-btn {
+      background: linear-gradient(145deg, #ffffff, #f0f5ff);
+      border: none;
+      padding: 16px 35px;
+      border-radius: 80px;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 12px 8px;
+      box-shadow: 0 12px 25px rgba(0,40,70,0.3), inset 0 -4px 0 #b0c6dd;
+      cursor: pointer;
+      transition: 0.1s;
+      border: 1px solid rgba(255,255,255,0.8);
+    }
+
+    .admin-btn:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 25px 35px -8px #00396b;
+    }
+
+    /* responsive */
+    @media (max-width: 600px) {
+      header { font-size: 1.5rem; padding: 20px; }
+      .route-btn { font-size: 1.3rem; padding: 15px 25px; }
+      .bus-card h3 { font-size: 1.6rem; }
+      .bus-card p { font-size: 1.1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <span>Bus Details</span>
+  <div>
+    <button id="loginBtn" onclick="showLogin()">Login</button>
+    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+  </div>
+</header>
+
+<!-- STEP 1: ROUTE SELECTION (centered) -->
+<div id="step1">
+  <div class="route-buttons">
+    <button class="route-btn" onclick="openRoute('tharad-lakhani','Tharad → Lakhani')">Tharad → Lakhani</button>
+    <button class="route-btn" onclick="openRoute('lakhani-tharad','Lakhani → Tharad')">Lakhani → Tharad</button>
+  </div>
+</div>
+
+<!-- ROUTE PAGE (bus list) -->
+<div id="routePage" style="display:none;">
+  <button class="back-btn" onclick="goBack()">← Back to routes</button>
+  <h3 id="routeTitle"></h3>
+  <div id="busList"></div>
+</div>
+
+<!-- LOGIN MODAL (glass) -->
+<div id="loginBox" class="glass-panel" style="display:none;">
+  <h3>🔐 Admin Access</h3>
+  <input type="password" id="password" placeholder="Enter password">
+  <br>
+  <button class="admin-btn" onclick="login()">Login</button>
+</div>
+
+<!-- ADMIN PANEL (glass, hidden by default) -->
+<div id="adminPanel" class="glass-panel" style="display:none;">
+  <h3>⚙️ Admin control</h3>
+  <select id="route">
+    <option value="tharad-lakhani">🚌 Tharad → Lakhani</option>
+    <option value="lakhani-tharad">🚌 Lakhani → Tharad</option>
+  </select>
+  <br>
+  <input type="text" id="busName" placeholder="Bus name (e.g. Express)">
+  <input type="text" id="busNumber" placeholder="Bus number (e.g. GJ8-1234)">
+  <input type="text" id="busTime" placeholder="Time (e.g. 7:30 AM)">
+  <br>
+  <button class="admin-btn" onclick="addBus()">➕ Add bus</button>
+  <button class="admin-btn" onclick="deleteAll()">🗑️ Delete all</button>
+</div>
+
+<script>
+  let currentRoute = "";
+  let isAdmin = false;  // track login state
+
+  function openRoute(route, title) {
+    currentRoute = route;
+    document.getElementById("step1").style.display = "none";
+    document.getElementById("routePage").style.display = "block";
+    document.getElementById("routeTitle").innerText = title;
+    loadBuses(route);
+  }
+
+  function loadBuses(route) {
+    let buses = JSON.parse(localStorage.getItem(route)) || [];
+    let output = "";
+
+    if (buses.length === 0) {
+      output = '<div class="empty-msg">🚫 No buses available</div>';
+    } else {
+      buses.forEach((bus, index) => {
+        // If admin, show delete button; otherwise hide it
+        const deleteBtn = isAdmin 
+          ? `<button class="delete-btn" onclick="deleteBus('${route}', ${index})"><i class="fas fa-trash-alt"></i> Delete</button>` 
+          : '';
+
+        output += `
+          <div class="bus-card">
+            ${deleteBtn}
+            <h3><i class="fas fa-bus" style="color:#000;"></i> ${bus.name}</h3>
+            <p><b><i class="fas fa-hashtag" style="color:#000;"></i> Number</b> ${bus.number}</p>
+            <p><b><i class="fas fa-clock" style="color:#000;"></i> Time</b> ${bus.time}</p>
+          </div>
+        `;
+      });
+    }
+    document.getElementById("busList").innerHTML = output;
+  }
+
+  // Delete individual bus
+  function deleteBus(route, index) {
+    if (!isAdmin) return;
+    let buses = JSON.parse(localStorage.getItem(route)) || [];
+    buses.splice(index, 1);
+    localStorage.setItem(route, JSON.stringify(buses));
+    loadBuses(route);  // refresh list
+  }
+
+  function goBack() {
+    document.getElementById("routePage").style.display = "none";
+    document.getElementById("step1").style.display = "block";
+  }
+
+  function showLogin() {
+    document.getElementById("loginBox").style.display = "block";
+  }
+
+  function login() {
+    let pass = document.getElementById("password").value;
+    if (pass === "4698") {   // change password as needed
+      alert("✅ Login successful");
+      isAdmin = true;
+      document.getElementById("adminPanel").style.display = "block";
+      document.getElementById("loginBtn").style.display = "none";
+      document.getElementById("logoutBtn").style.display = "inline-block";
+      document.getElementById("loginBox").style.display = "none";
+      // Refresh current view to show delete buttons if on a route
+      if (currentRoute) loadBuses(currentRoute);
+    } else {
+      alert("❌ Wrong password");
+    }
+  }
+
+  function logout() {
+    isAdmin = false;
+    document.getElementById("adminPanel").style.display = "none";
+    document.getElementById("loginBtn").style.display = "inline-block";
+    document.getElementById("logoutBtn").style.display = "none";
+    // Refresh current view to hide delete buttons
+    if (currentRoute) loadBuses(currentRoute);
+  }
+
+  function addBus() {
+    let route = document.getElementById("route").value;
+    let name = document.getElementById("busName").value.trim();
+    let number = document.getElementById("busNumber").value.trim();
+    let time = document.getElementById("busTime").value.trim();
+
+    if (!name || !number || !time) {
+      alert("Please fill all fields");
+      return;
+    }
+
+    let buses = JSON.parse(localStorage.getItem(route)) || [];
+    buses.push({ name, number, time });
+    localStorage.setItem(route, JSON.stringify(buses));
+
+    alert("Bus added");
+    document.getElementById("busName").value = "";
+    document.getElementById("busNumber").value = "";
+    document.getElementById("busTime").value = "";
+    loadBuses(route);
+  }
+
+  function deleteAll() {
+    let route = document.getElementById("route").value;
+    if (confirm("Delete ALL buses on this route?")) {
+      localStorage.removeItem(route);
+      alert("All buses deleted");
+      loadBuses(route);
+    }
+  }
+</script>
+
+</body>
+</html>
