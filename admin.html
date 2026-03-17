@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pro Project Admin</title>
+  <!-- Inter font for clean look -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f5f7fb;  /* soft off-white */
+      /* jaali pattern – fine dots in the single color (blue) at very low opacity */
+      background-image: radial-gradient(circle at 16px 16px, #3b82f610 2px, transparent 2px);
+      background-size: 32px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.2rem;
+    }
+
+    /* main card – flat, no 3D, monochrome blue */
+    .admin-panel {
+      max-width: 1000px;
+      width: 100%;
+      background: #ffffff;
+      border-radius: 32px;
+      box-shadow: 0 10px 30px -10px rgba(59, 130, 246, 0.2), 0 4px 8px rgba(0,0,0,0.02);
+      border: 1px solid #e0e7ff;
+      padding: 2rem 2.2rem 2.5rem;
+      transition: box-shadow 0.2s;
+    }
+
+    .admin-panel:hover {
+      box-shadow: 0 20px 35px -12px rgba(59, 130, 246, 0.3);
+    }
+
+    /* header – flat, no depth */
+    .header-flat {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+      border-bottom: 2px solid #3b82f620;
+      padding-bottom: 1.2rem;
+    }
+
+    .header-flat h2 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .bes5-badge {
+      background: #3b82f6;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      letter-spacing: 0.5px;
+      box-shadow: inset 0 -1px 3px #1e4b8a;
+      margin-left: 0.75rem;
+    }
+
+    .logout-btn {
+      background: none;
+      border: 1.5px solid #3b82f6;
+      color: #3b82f6;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 0.6rem 2rem;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+
+    .logout-btn:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    /* route selector – flat minimal */
+    .route-selector {
+      margin-bottom: 1.8rem;
+    }
+
+    #route {
+      width: 100%;
+      padding: 0.9rem 1.6rem;
+      background: white;
+      border: 1.5px solid #3b82f6;
+      border-radius: 60px;
+      font-size: 1.1rem;
+      font-weight: 500;
+      color: #1e293b;
+      outline: none;
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 1.5rem center;
+      background-size: 1.3rem;
+      box-shadow: 0 2px 6px #3b82f610;
+    }
+
+    #route option {
+      color: #1e293b;
+      background: white;
+    }
+
+    /* input group – one color borders */
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      background: #f8fafc;
+      padding: 1.5rem 1.2rem;
+      border-radius: 28px;
+      border: 1px solid #3b82f630;
+    }
+
+    .input-group input {
+      flex: 1 1 160px;
+      background: white;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 0.9rem 1.4rem;
+      font-size: 1rem;
+      color: #1e293b;
+      font-weight: 500;
+      transition: border 0.15s, box-shadow 0.15s;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px #3b82f620;
+      outline: none;
+    }
+
+    .input-group input::placeholder {
+      color: #94a3b8;
+      font-weight: 400;
+    }
+
+    /* flat action buttons – monochrome */
+    .action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin: 1.8rem 0 2rem;
+    }
+
+    .btn-flat {
+      background: #3b82f6;
+      border: none;
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: white;
+      box-shadow: 0 4px 6px -2px #3b82f660;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s, box-shadow 0.2s;
+      border: 1px solid #2563eb;
+    }
+
+    .btn-flat:hover {
+      background: #2563eb;
+      box-shadow: 0 8px 12px -6px #3b82f6a0;
+    }
+
+    .btn-flat:active {
+      transform: scale(0.97);
+    }
+
+    .btn-flat.delete-all {
+      background: white;
+      color: #3b82f6;
+      border: 1.5px solid #3b82f6;
+      box-shadow: none;
+    }
+    .btn-flat.delete-all:hover {
+      background: #eff6ff;
+      box-shadow: 0 4px 10px -4px #3b82f6;
+    }
+
+    /* list heading */
+    .list-heading {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 1.8rem 0 1rem;
+      color: #1e293b;
+      border-left: 6px solid #3b82f6;
+      padding-left: 1rem;
+    }
+
+    /* bus list container */
+    .bus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    /* flat bus card – no 3D, only subtle border */
+    .bus-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 28px;
+      padding: 1.1rem 1.8rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      transition: border 0.15s, box-shadow 0.15s;
+      border-left: 8px solid #3b82f6;
+    }
+
+    .bus-card:hover {
+      border-color: #3b82f6;
+      box-shadow: 0 8px 20px -12px #3b82f6;
+    }
+
+    .bus-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.2rem 2.5rem;
+      align-items: baseline;
+      font-weight: 600;
+    }
+
+    .bus-name {
+      font-size: 1.4rem;
+      color: #0f172a;
+    }
+
+    .bus-number {
+      background: #eef2ff;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      font-size: 1.2rem;
+      color: #1e3a8a;
+      border: 1px solid #3b82f6;
+    }
+
+    .bus-time {
+      font-size: 1.2rem;
+      background: #f1f5f9;
+      padding: 0.2rem 1.2rem;
+      border-radius: 40px;
+      border: 1px dashed #3b82f6;
+      color: #2563eb;
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .card-actions button {
+      background: white;
+      border: 1.5px solid #3b82f6;
+      border-radius: 40px;
+      padding: 0.4rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #3b82f6;
+      cursor: pointer;
+      transition: background 0.1s, color 0.1s;
+    }
+
+    .card-actions button:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .empty-message {
+      background: #f8fafc;
+      padding: 2rem;
+      border-radius: 32px;
+      font-size: 1.4rem;
+      text-align: center;
+      color: #64748b;
+      border: 2px dashed #3b82f6;
+      font-weight: 500;
+    }
+
+    /* simple jaali divider (mono) */
+    .mono-divider {
+      height: 4px;
+      background: repeating-linear-gradient(90deg, #3b82f6 0px, #3b82f6 12px, transparent 12px, transparent 24px);
+      margin: 1.8rem 0 0.5rem;
+      opacity: 0.3;
+    }
+
+    @media (max-width: 600px) {
+      .admin-panel {
+        padding: 1.4rem;
+      }
+      .header-flat h2 {
+        font-size: 1.8rem;
+      }
+      .bus-card {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.8rem;
+      }
+      .card-actions {
+        align-self: flex-end;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-panel">
+
+    <!-- flat header with BES5 badge (only one color) -->
+    <div class="header-flat">
+      <h2>
+        ⚙️ ADMIN PANEL
+        <span class="bes5-badge">MS09</span>
+      </h2>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+
+    <!-- route selector -->
+    <div class="route-selector">
+      <select id="route">
+        <option value="tharad-lakhani">🚌 Tharad → Lakhani</option>
+        <option value="lakhani-tharad">🚌 Lakhani → Tharad</option>
+      </select>
+    </div>
+
+    <!-- inputs with blue accents -->
+    <div class="input-group">
+      <input id="name" placeholder="Bus name (e.g. Express)" type="text">
+      <input id="number" placeholder="Bus number (e.g. GJ08 1234)" type="text">
+      <input id="time" placeholder="Time (e.g. 06:45 AM)" type="text">
+    </div>
+
+    <!-- flat buttons, monochrome -->
+    <div class="action-btns">
+      <button class="btn-flat" onclick="addBus()">➕ Add bus</button>
+      <button class="btn-flat delete-all" onclick="deleteAll()">🗑️ Delete all</button>
+    </div>
+
+    <!-- subtle mono divider -->
+    <div class="mono-divider"></div>
+
+    <h3 class="list-heading">📋 Bus list</h3>
+    <div id="list" class="bus-list">
+      <!-- dynamic bus cards go here -->
+    </div>
+
+    <div style="text-align:right; margin-top:2rem; font-size:0.85rem; color:#3b82f680;">⚡ mono · BES5</div>
+  </div>
+
+  <!-- password check (same as original) -->
+  <script>
+    let pass = prompt("🔐 Enter Password");
+    if(pass !== "4698"){
+      alert("⛔ Access Denied");
+      location.href = "index.html";
+    }
+  </script>
+
+  <!-- Firebase module – unchanged logic, only UI flat & one color -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+    import { getDatabase, ref, set, get, onValue, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyA6uiCzTx_ZJIWYNyTbDDe2Jv4eaJ-XF_A",
+      authDomain: "bus-details-cf6b2.firebaseapp.com",
+      databaseURL: "https://bus-details-cf6b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "bus-details-cf6b2",
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+
+    // make functions global
+    window.load = function() {
+      let route = document.getElementById("route").value;
+      onValue(ref(db, route), (snap) => {
+        let data = snap.val() || [];
+        let html = "";
+
+        if (data.length === 0) {
+          html = `<div class="empty-message">🚏 कोई बस नहीं · no buses</div>`;
+        } else {
+          data.forEach((bus, i) => {
+            html += `
+              <div class="bus-card">
+                <div class="bus-info">
+                  <span class="bus-name">🚍 ${bus.name || '—'}</span>
+                  <span class="bus-number">#${bus.number || '—'}</span>
+                  <span class="bus-time">⏱️ ${bus.time || '—'}</span>
+                </div>
+                <div class="card-actions">
+                  <button onclick="editBus(${i})">✎ Edit</button>
+                  <button onclick="deleteBus(${i})">🗑️ Del</button>
+                </div>
+              </div>
+            `;
+          });
+        }
+        document.getElementById("list").innerHTML = html;
+      });
+    };
+
+    window.addBus = function() {
+      let route = document.getElementById("route").value;
+      let name = document.getElementById("name").value.trim();
+      let number = document.getElementById("number").value.trim();
+      let time = document.getElementById("time").value.trim();
+
+      if (!name || !number || !time) {
+        alert("❌ Please fill all fields");
+        return;
+      }
+
+      get(ref(db, route)).then(snap => {
+        let data = snap.val() || [];
+        data.push({ name, number, time });
+        set(ref(db, route), data).then(() => {
+          document.getElementById("name").value = "";
+          document.getElementById("number").value = "";
+          document.getElementById("time").value = "";
+        });
+      });
+    };
+
+    window.deleteBus = function(i) {
+      let route = document.getElementById("route").value;
+      get(ref(db, route)).then(snap => {
+        let data = snap.val() || [];
+        data.splice(i, 1);
+        set(ref(db, route), data);
+      });
+    };
+
+    window.editBus = function(i) {
+      let route = document.getElementById("route").value;
+      get(ref(db, route)).then(snap => {
+        let data = snap.val() || [];
+        let bus = data[i];
+        let newName = prompt("Edit Bus Name", bus.name || '');
+        let newNumber = prompt("Edit Bus Number", bus.number || '');
+        let newTime = prompt("Edit Time", bus.time || '');
+        if (newName !== null && newNumber !== null && newTime !== null) {
+          data[i] = { name: newName, number: newNumber, time: newTime };
+          set(ref(db, route), data);
+        }
+      });
+    };
+
+    window.deleteAll = function() {
+      let route = document.getElementById("route").value;
+      if (confirm("⚠️ Delete ALL buses from this route?")) {
+        remove(ref(db, route));
+      }
+    };
+
+    window.logout = function() {
+      location.href = "index.html";
+    };
+
+    document.getElementById("route").addEventListener("change", load);
+    load();
+  </script>
+</body>
+  </html>
