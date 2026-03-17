@@ -2,484 +2,376 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <link rel="icon" type="image/png" href="Pro.png">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bus Details</title>
-  <!-- Font Awesome for icons (black) -->
+  <title>Pro Developing (project)</title>
+  <!-- Google Font & basic icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: 'Poppins', 'Segoe UI', system-ui, sans-serif;
     }
 
     body {
-      background: linear-gradient(145deg, #f0f5ff 0%, #e6edf7 100%);
+      background: #eef3f9;
+      font-family: 'Inter', sans-serif;
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
+      justify-content: center;
       align-items: center;
-      padding: 0 16px 40px;
+      padding: 1.5rem;
     }
 
-    /* 3D HEADER */
-    header {
+    .card {
+      max-width: 700px;
       width: 100%;
-      max-width: 1200px;
-      margin: 20px 0 30px;
-      background: linear-gradient(135deg, #1e2b5e, #0f1a3f);
-      color: white;
-      padding: 24px 32px;
-      border-radius: 48px 48px 48px 48px;
-      box-shadow: 
-        0 20px 30px -10px rgba(0, 20, 60, 0.4),
-        inset 0 -3px 0 rgba(255,255,255,0.1),
-        inset 0 2px 10px rgba(255,255,255,0.3);
-      font-size: 2.2rem;
-      font-weight: 600;
-      letter-spacing: 1px;
-      text-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      position: relative;
-      transform: perspective(800px) rotateX(1deg);
-      backdrop-filter: blur(2px);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      background: white;
+      border-radius: 40px;
+      box-shadow: 0 30px 50px rgba(0, 30, 60, 0.12);
+      padding: 2rem 2rem 2.5rem;
     }
 
-    header span {
+    h1 {
+      font-weight: 600;
+      font-size: 2rem;
+      color: #113855;
       display: flex;
       align-items: center;
       gap: 10px;
+      margin-bottom: 0.25rem;
     }
 
-    #loginBtn, #logoutBtn {
-      background: rgba(255,255,255,0.15);
-      border: 2px solid rgba(255,255,255,0.3);
-      color: white;
-      padding: 10px 28px;
-      border-radius: 60px;
-      font-size: 1.1rem;
-      font-weight: 600;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.3), inset 0 2px 4px rgba(255,255,255,0.3);
-      transition: all 0.2s ease;
-      cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
+    .sub {
+      color: #4f6f8f;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      border-left: 4px solid #9bbde2;
+      padding-left: 1rem;
     }
 
-    #loginBtn:hover, #logoutBtn:hover {
-      background: rgba(255,255,255,0.3);
-      transform: translateY(-3px) scale(1.02);
-      box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-    }
-
-    /* CENTERED ROUTE BUTTONS */
-    .route-buttons {
+    /* route buttons */
+    .route-row {
       display: flex;
-      gap: 25px;
+      gap: 1rem;
       flex-wrap: wrap;
-      justify-content: center;
-      margin: 30px 0 20px;
+      margin-bottom: 2.5rem;
     }
 
     .route-btn {
-      background: #ffffffcc;
-      backdrop-filter: blur(12px);
-      border: none;
-      padding: 20px 45px;
-      border-radius: 80px;
-      font-size: 1.7rem;
-      font-weight: 700;
-      color: #0a1a3a;
-      box-shadow: 
-        0 25px 35px -10px rgba(0,30,80,0.3),
-        inset 0 -5px 0 rgba(0,0,0,0.1),
-        inset 0 5px 10px rgba(255,255,255,0.8);
+      flex: 1 1 200px;
+      background: #f4f9ff;
+      border: 2px solid transparent;
+      border-radius: 36px;
+      padding: 1.4rem 1rem;
+      font-weight: 600;
+      font-size: 1.35rem;
+      color: #153f5e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       cursor: pointer;
-      transition: 0.2s;
-      border: 1px solid rgba(255,255,255,0.6);
-      transform: perspective(600px) rotateX(2deg);
+      transition: all 0.2s ease;
+      box-shadow: 0 5px 12px rgba(0,40,70,0.1);
+    }
+
+    .route-btn i {
+      font-size: 1.5rem;
+      color: #2a6a9e;
     }
 
     .route-btn:hover {
-      transform: perspective(600px) rotateX(0deg) translateY(-8px);
-      box-shadow: 0 35px 40px -10px #00246b;
-      background: white;
-    }
-
-    /* BACK BUTTON */
-    .back-btn {
-      background: #ffffffd9;
-      border: none;
-      padding: 12px 30px;
-      border-radius: 60px;
-      font-size: 1.3rem;
-      font-weight: 600;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15), inset 0 -3px 0 #c5d0e0;
-      margin: 10px 0 20px;
-      backdrop-filter: blur(4px);
-      cursor: pointer;
-      transition: 0.15s;
-    }
-
-    .back-btn:hover {
-      background: white;
+      background: #ffffff;
+      border-color: #a3c6f0;
       transform: scale(1.02);
-      box-shadow: 0 15px 25px rgba(0, 50, 100, 0.3);
+      box-shadow: 0 12px 24px rgba(20, 70, 120, 0.15);
     }
 
-    /* ROUTE TITLE */
-    #routeTitle {
-      color: #102a4c;
-      font-size: 2.5rem;
-      font-weight: 700;
-      text-shadow: 0 5px 12px rgba(0,60,130,0.2);
-      margin: 10px 0 25px;
-      letter-spacing: -0.5px;
+    .route-btn:active {
+      transform: scale(0.98);
     }
 
-    /* 3D BUS CARDS */
-    .bus-card {
-      background: #ffffffea;
-      backdrop-filter: blur(10px);
-      margin: 20px auto;
-      padding: 28px 30px;
-      width: 100%;
-      max-width: 520px;
-      border-radius: 48px;
-      box-shadow: 
-        0 35px 50px -20px #001e3e,
-        0 0 0 1px rgba(255,255,255,0.8) inset,
-        0 -5px 0 rgba(0,0,0,0.1) inset;
-      transform: perspective(1200px) rotateY(0deg) rotateX(1deg);
-      transition: 0.25s;
-      text-align: left;
-      border-left: 8px solid #ffb347;
-      position: relative;
+    /* bus list container */
+    .list-container {
+      background: #f8fafd;
+      border-radius: 32px;
+      padding: 1.5rem 1.2rem;
+      border: 1px solid #e0ecf9;
     }
 
-    .bus-card:hover {
-      transform: perspective(1200px) rotateY(2deg) rotateX(1deg) translateY(-8px) translateZ(15px);
-      box-shadow: 0 45px 60px -15px #002856;
-    }
-
-    .bus-card h3 {
-      color: #0a2540;
-      font-size: 2rem;
-      font-weight: 700;
-      margin-bottom: 12px;
+    .list-header {
       display: flex;
       align-items: center;
       gap: 8px;
-    }
-
-    /* Icons in black */
-    .bus-card i {
-      color: #000;
-      font-size: 1.5rem;
-      width: 32px;
-    }
-
-    .bus-card p {
-      font-size: 1.3rem;
-      margin: 8px 0;
-      color: #1f3a5f;
-      font-weight: 500;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .bus-card p b {
-      color: #0d3f7a;
-      min-width: 90px;
-    }
-
-    /* Delete button (only visible to admin) */
-    .delete-btn {
-      position: absolute;
-      top: 20px;
-      right: 25px;
-      background: #ff4d4d;
-      color: white;
-      border: none;
-      border-radius: 50px;
-      padding: 8px 16px;
-      font-size: 1rem;
+      color: #1d4e79;
       font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 5px 12px rgba(255,0,0,0.3);
-      transition: 0.1s;
+      margin-bottom: 1.2rem;
+      font-size: 1.2rem;
+      border-bottom: 2px dashed #c8ddf5;
+      padding-bottom: 0.8rem;
+    }
+
+    .bus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.9rem;
+    }
+
+    /* bus card */
+    .bus-card {
+      background: white;
+      border-radius: 26px;
+      padding: 1rem 1.5rem;
       display: flex;
       align-items: center;
-      gap: 5px;
+      gap: 1rem;
+      box-shadow: 0 4px 10px rgba(0, 30, 60, 0.03);
+      border: 1px solid #e3edf6;
     }
 
-    .delete-btn i {
-      color: white !important;  /* override black for icon inside button */
-      font-size: 1rem;
+    .bus-icon {
+      background: #ddeeff;
+      width: 50px;
+      height: 50px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      color: #1d6091;
     }
 
-    .delete-btn:hover {
-      background: #cc0000;
-      transform: scale(1.05);
+    .info {
+      flex: 1;
     }
 
-    /* EMPTY STATE */
-    .empty-msg {
-      font-size: 1.8rem;
-      background: rgba(255,255,255,0.6);
-      backdrop-filter: blur(6px);
-      padding: 30px 50px;
-      border-radius: 80px;
-      box-shadow: 0 20px 30px rgba(0,0,0,0.1);
-      color: #2b4a73;
-      font-weight: 500;
-    }
-
-    /* LOGIN / ADMIN PANELS with 3D GLASS */
-    .glass-panel {
-      background: rgba(255, 255, 255, 0.7);
-      backdrop-filter: blur(16px);
-      border-radius: 70px;
-      padding: 40px 30px;
-      box-shadow: 
-        0 35px 60px -15px #001e3e,
-        inset 0 2px 10px rgba(255,255,255,0.8),
-        inset 0 -6px 0 rgba(0,0,0,0.05);
-      width: 90%;
-      max-width: 650px;
-      margin: 30px auto;
-      border: 1px solid rgba(255,255,255,0.6);
-      transform: perspective(800px) rotateX(1deg);
-    }
-
-    #loginBox, #adminPanel {
-      display: none; /* hidden by default */
-    }
-
-    #loginBox h3, #adminPanel h3 {
-      color: #0f283d;
-      font-size: 2.3rem;
-      margin-bottom: 25px;
+    .bus-name {
       font-weight: 700;
-      text-shadow: 0 2px 5px rgba(255,255,255,0.8);
-    }
-
-    input, select {
-      background: rgba(255,255,255,0.8);
-      border: 2px solid rgba(255,255,255,0.9);
-      padding: 16px 25px;
-      margin: 10px;
-      border-radius: 60px;
-      font-size: 1.2rem;
-      width: 250px;
-      max-width: 90%;
-      box-shadow: inset 0 3px 8px rgba(0,0,0,0.05), 0 8px 15px rgba(0,20,50,0.1);
-      transition: 0.2s;
-      outline: none;
-      font-weight: 500;
-    }
-
-    input:focus, select:focus {
-      border-color: #07478b;
-      box-shadow: 0 0 0 5px rgba(0,98,255,0.2), inset 0 2px 5px #0000001a;
-      background: white;
-    }
-
-    .admin-btn {
-      background: linear-gradient(145deg, #ffffff, #f0f5ff);
-      border: none;
-      padding: 16px 35px;
-      border-radius: 80px;
       font-size: 1.3rem;
-      font-weight: 700;
-      margin: 12px 8px;
-      box-shadow: 0 12px 25px rgba(0,40,70,0.3), inset 0 -4px 0 #b0c6dd;
-      cursor: pointer;
-      transition: 0.1s;
-      border: 1px solid rgba(255,255,255,0.8);
+      color: #103450;
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
     }
 
-    .admin-btn:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 25px 35px -8px #00396b;
+    .bus-number {
+      background: #e7f0fe;
+      padding: 0.2rem 1rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: #1f5682;
     }
 
-    /* responsive */
-    @media (max-width: 600px) {
-      header { font-size: 1.5rem; padding: 20px; }
-      .route-btn { font-size: 1.3rem; padding: 15px 25px; }
-      .bus-card h3 { font-size: 1.6rem; }
-      .bus-card p { font-size: 1.1rem; }
+    .bus-time {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: #46688b;
+      font-weight: 500;
+      font-size: 0.95rem;
+      margin-top: 4px;
+    }
+
+    .bus-time i {
+      color: #4280b5;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2.5rem 1rem;
+      color: #7c99b8;
+      font-size: 1.1rem;
+    }
+
+    .empty-state i {
+      font-size: 2.8rem;
+      color: #b7d2ed;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    .loader {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      padding: 2rem;
+    }
+
+    .loader div {
+      width: 12px;
+      height: 12px;
+      background: #abc1d9;
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+
+    .loader div:nth-child(2) { animation-delay: 0.2s; }
+    .loader div:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+      40% { transform: scale(1); opacity: 1; background: #326fa8; }
+    }
+
+    .footer-note {
+      margin-top: 1.8rem;
+      font-size: 0.85rem;
+      color: #9bb3cc;
+      text-align: center;
     }
   </style>
 </head>
 <body>
+<div class="card">
+  <h1><i class="fas fa-bus" style="color: #2a6a9e;"></i> Bus routes</h1>
+  <div class="sub">Tharad – Lakhani · live departure</div>
 
-<header>
-  <span>Bus Details</span>
-  <div>
-    <button id="loginBtn" onclick="showLogin()">Login</button>
-    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+  <!-- two buttons only -->
+  <div class="route-row">
+    <button class="route-btn" id="btnTharadLakhani">
+      <i class="fas fa-arrow-right"></i> Tharad → Lakhani
+    </button>
+    <button class="route-btn" id="btnLakhaniTharad">
+      <i class="fas fa-arrow-left"></i> Lakhani → Tharad
+    </button>
   </div>
-</header>
 
-<!-- STEP 1: ROUTE SELECTION (centered) -->
-<div id="step1">
-  <div class="route-buttons">
-    <button class="route-btn" onclick="openRoute('tharad-lakhani','Tharad → Lakhani')">Tharad → Lakhani</button>
-    <button class="route-btn" onclick="openRoute('lakhani-tharad','Lakhani → Tharad')">Lakhani → Tharad</button>
+  <!-- bus list area -->
+  <div class="list-container">
+    <div class="list-header">
+      <i class="fas fa-list-ul"></i> <span id="routeLabel">select a route</span>
+    </div>
+    <div id="busList" class="bus-list">
+      <!-- empty state appears here -->
+      <div class="empty-state">
+        <i class="fas fa-hand-pointer"></i>
+        <p>click a route to see buses</p>
+      </div>
+    </div>
+  </div>
+  <div class="footer-note">
+    <i class="fas fa-database"></i> data updates automatically
   </div>
 </div>
 
-<!-- ROUTE PAGE (bus list) -->
-<div id="routePage" style="display:none;">
-  <button class="back-btn" onclick="goBack()">← Back to routes</button>
-  <h3 id="routeTitle"></h3>
-  <div id="busList"></div>
-</div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
+  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
-<!-- LOGIN MODAL (glass) -->
-<div id="loginBox" class="glass-panel" style="display:none;">
-  <h3>🔐 Admin Access</h3>
-  <input type="password" id="password" placeholder="Enter password">
-  <br>
-  <button class="admin-btn" onclick="login()">Login</button>
-</div>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA6uiCzTx_ZJIWYNyTbDDe2Jv4eaJ-XF_A",
+    authDomain: "bus-details-cf6b2.firebaseapp.com",
+    databaseURL: "https://bus-details-cf6b2-default-rtdb.asia-southeast1.firebasedatabase.app",
+    projectId: "bus-details-cf6b2",
+  };
 
-<!-- ADMIN PANEL (glass, hidden by default) -->
-<div id="adminPanel" class="glass-panel" style="display:none;">
-  <h3>⚙️ Admin control</h3>
-  <select id="route">
-    <option value="tharad-lakhani">🚌 Tharad → Lakhani</option>
-    <option value="lakhani-tharad">🚌 Lakhani → Tharad</option>
-  </select>
-  <br>
-  <input type="text" id="busName" placeholder="Bus name (e.g. Express)">
-  <input type="text" id="busNumber" placeholder="Bus number (e.g. GJ8-1234)">
-  <input type="text" id="busTime" placeholder="Time (e.g. 7:30 AM)">
-  <br>
-  <button class="admin-btn" onclick="addBus()">➕ Add bus</button>
-  <button class="admin-btn" onclick="deleteAll()">🗑️ Delete all</button>
-</div>
+  const app = initializeApp(firebaseConfig);
+  const db = getDatabase(app);
 
-<script>
-  let currentRoute = "";
-  let isAdmin = false;  // track login state
+  // elements
+  const busListDiv = document.getElementById('busList');
+  const routeLabel = document.getElementById('routeLabel');
+  const btnTharad = document.getElementById('btnTharadLakhani');
+  const btnLakhani = document.getElementById('btnLakhaniTharad');
 
-  function openRoute(route, title) {
-    currentRoute = route;
-    document.getElementById("step1").style.display = "none";
-    document.getElementById("routePage").style.display = "block";
-    document.getElementById("routeTitle").innerText = title;
-    loadBuses(route);
+  let currentListener = null;   // to detach previous
+
+  // small helper: escape html (just in case)
+  function escapeHtml(unsafe) {
+    if (!unsafe) return '';
+    return String(unsafe)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#039;');
   }
 
-  function loadBuses(route) {
-    let buses = JSON.parse(localStorage.getItem(route)) || [];
-    let output = "";
-
-    if (buses.length === 0) {
-      output = '<div class="empty-msg">🚫 No buses available</div>';
-    } else {
-      buses.forEach((bus, index) => {
-        // If admin, show delete button; otherwise hide it
-        const deleteBtn = isAdmin 
-          ? `<button class="delete-btn" onclick="deleteBus('${route}', ${index})"><i class="fas fa-trash-alt"></i> Delete</button>` 
-          : '';
-
-        output += `
-          <div class="bus-card">
-            ${deleteBtn}
-            <h3><i class="fas fa-bus" style="color:#000;"></i> ${bus.name}</h3>
-            <p><b><i class="fas fa-hashtag" style="color:#000;"></i> Number</b> ${bus.number}</p>
-            <p><b><i class="fas fa-clock" style="color:#000;"></i> Time</b> ${bus.time}</p>
-          </div>
-        `;
-      });
-    }
-    document.getElementById("busList").innerHTML = output;
+  // display loader
+  function showLoader() {
+    busListDiv.innerHTML = `<div class="loader"><div></div><div></div><div></div></div>`;
   }
 
-  // Delete individual bus
-  function deleteBus(route, index) {
-    if (!isAdmin) return;
-    let buses = JSON.parse(localStorage.getItem(route)) || [];
-    buses.splice(index, 1);
-    localStorage.setItem(route, JSON.stringify(buses));
-    loadBuses(route);  // refresh list
-  }
-
-  function goBack() {
-    document.getElementById("routePage").style.display = "none";
-    document.getElementById("step1").style.display = "block";
-  }
-
-  function showLogin() {
-    document.getElementById("loginBox").style.display = "block";
-  }
-
-  function login() {
-    let pass = document.getElementById("password").value;
-    if (pass === "4698") {   // change password as needed
-      alert("✅ Login successful");
-      isAdmin = true;
-      document.getElementById("adminPanel").style.display = "block";
-      document.getElementById("loginBtn").style.display = "none";
-      document.getElementById("logoutBtn").style.display = "inline-block";
-      document.getElementById("loginBox").style.display = "none";
-      // Refresh current view to show delete buttons if on a route
-      if (currentRoute) loadBuses(currentRoute);
-    } else {
-      alert("❌ Wrong password");
-    }
-  }
-
-  function logout() {
-    isAdmin = false;
-    document.getElementById("adminPanel").style.display = "none";
-    document.getElementById("loginBtn").style.display = "inline-block";
-    document.getElementById("logoutBtn").style.display = "none";
-    // Refresh current view to hide delete buttons
-    if (currentRoute) loadBuses(currentRoute);
-  }
-
-  function addBus() {
-    let route = document.getElementById("route").value;
-    let name = document.getElementById("busName").value.trim();
-    let number = document.getElementById("busNumber").value.trim();
-    let time = document.getElementById("busTime").value.trim();
-
-    if (!name || !number || !time) {
-      alert("Please fill all fields");
+  // render bus cards
+  function renderBuses(buses) {
+    if (!buses || buses.length === 0) {
+      busListDiv.innerHTML = `<div class="empty-state"><i class="fas fa-bus-slash"></i><p>no buses found</p></div>`;
       return;
     }
 
-    let buses = JSON.parse(localStorage.getItem(route)) || [];
-    buses.push({ name, number, time });
-    localStorage.setItem(route, JSON.stringify(buses));
-
-    alert("Bus added");
-    document.getElementById("busName").value = "";
-    document.getElementById("busNumber").value = "";
-    document.getElementById("busTime").value = "";
-    loadBuses(route);
+    let html = '';
+    buses.forEach(bus => {
+      const name = escapeHtml(bus.name || 'Express');
+      const number = escapeHtml(bus.number || '');
+      const time = escapeHtml(bus.time || '— : —');
+      html += `
+        <div class="bus-card">
+          <div class="bus-icon"><i class="fas fa-bus"></i></div>
+          <div class="info">
+            <div class="bus-name">
+              ${name}
+              <span class="bus-number">${number}</span>
+            </div>
+            <div class="bus-time">
+              <i class="fas fa-clock"></i> ${time}
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    busListDiv.innerHTML = html;
   }
 
-  function deleteAll() {
-    let route = document.getElementById("route").value;
-    if (confirm("Delete ALL buses on this route?")) {
-      localStorage.removeItem(route);
-      alert("All buses deleted");
-      loadBuses(route);
+  // load a route from firebase
+  function loadRoute(routeKey, displayName) {
+    // update header label
+    routeLabel.innerText = displayName;
+
+    // detach any previous listener
+    if (currentListener) {
+      currentListener();
+      currentListener = null;
     }
-  }
-</script>
 
+    showLoader();
+
+    const dbRef = ref(db, routeKey);
+    // attach new listener
+    currentListener = onValue(dbRef, (snapshot) => {
+      const data = snapshot.val();
+      let buses = [];
+      if (Array.isArray(data)) {
+        buses = data;
+      } else if (data && typeof data === 'object') {
+        // firebase often returns object with numeric keys
+        buses = Object.values(data);
+      }
+      renderBuses(buses);
+    }, (error) => {
+      console.warn(error);
+      busListDiv.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> error loading</div>`;
+    });
+  }
+
+  // event listeners for buttons
+  btnTharad.addEventListener('click', () => {
+    loadRoute('tharad-lakhani', 'Tharad → Lakhani');
+  });
+
+  btnLakhani.addEventListener('click', () => {
+    loadRoute('lakhani-tharad', 'Lakhani → Tharad');
+  });
+
+  // clean up on page unload
+  window.addEventListener('beforeunload', () => {
+    if (currentListener) currentListener();
+  });
+</script>
 </body>
-</html>
+  </html>
