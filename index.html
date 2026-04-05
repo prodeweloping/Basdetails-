@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pro Developing (project)</title>
-  <!-- Google Font & basic icons -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Pro Project | Bus route firebase</title>
+  <!-- Google Font & Font Awesome -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz@14..32&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
@@ -20,23 +20,121 @@
       background: #eef3f9;
       font-family: 'Inter', sans-serif;
       min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 1.5rem;
+      padding: 0;
     }
 
-    .card {
-      max-width: 700px;
-      width: 100%;
+    /* ========== MODERN NAVIGATION BAR ========== */
+    .nav-bar {
+      background: white;
+      backdrop-filter: blur(0px);
+      box-shadow: 0 8px 20px rgba(0, 30, 60, 0.08);
+      padding: 0.8rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+      border-bottom: 2px solid #e0edf9;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-area i {
+      font-size: 2rem;
+      color: #2a6a9e;
+    }
+
+    .logo-area h2 {
+      font-weight: 700;
+      font-size: 1.6rem;
+      color: #113855;
+      letter-spacing: -0.3px;
+    }
+
+    .nav-buttons {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-btn {
+      background: #f4f9ff;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #1a4d6f;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: 1px solid transparent;
+    }
+
+    .nav-btn i {
+      font-size: 1.1rem;
+      color: #2a6a9e;
+    }
+
+    .nav-btn.active {
+      background: #1d6091;
+      color: white;
+      border-color: #1d6091;
+      box-shadow: 0 6px 12px rgba(29,96,145,0.2);
+    }
+
+    .nav-btn.active i {
+      color: white;
+    }
+
+    .nav-btn:hover:not(.active) {
+      background: #e3f0fe;
+      border-color: #a3c6f0;
+      transform: translateY(-2px);
+    }
+
+    /* main container */
+    .main-container {
+      max-width: 1300px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+    }
+
+    /* view panels */
+    .view-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .view-panel.active-panel {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px);}
+      to { opacity: 1; transform: translateY(0);}
+    }
+
+    /* ========== PUBLIC VIEW STYLES (elegant) ========== */
+    .public-card {
       background: white;
       border-radius: 40px;
-      box-shadow: 0 30px 50px rgba(0, 30, 60, 0.12);
+      box-shadow: 0 25px 45px rgba(0, 30, 60, 0.1);
       padding: 2rem 2rem 2.5rem;
     }
 
     h1 {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 2rem;
       color: #113855;
       display: flex;
@@ -53,12 +151,11 @@
       padding-left: 1rem;
     }
 
-    /* route buttons */
     .route-row {
       display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 2.5rem;
+      margin-bottom: 2rem;
     }
 
     .route-btn {
@@ -66,9 +163,9 @@
       background: #f4f9ff;
       border: 2px solid transparent;
       border-radius: 36px;
-      padding: 1.4rem 1rem;
+      padding: 1rem 1rem;
       font-weight: 600;
-      font-size: 1.35rem;
+      font-size: 1.2rem;
       color: #153f5e;
       display: flex;
       align-items: center;
@@ -76,11 +173,11 @@
       gap: 12px;
       cursor: pointer;
       transition: all 0.2s ease;
-      box-shadow: 0 5px 12px rgba(0,40,70,0.1);
+      box-shadow: 0 5px 12px rgba(0,40,70,0.08);
     }
 
     .route-btn i {
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       color: #2a6a9e;
     }
 
@@ -88,14 +185,8 @@
       background: #ffffff;
       border-color: #a3c6f0;
       transform: scale(1.02);
-      box-shadow: 0 12px 24px rgba(20, 70, 120, 0.15);
     }
 
-    .route-btn:active {
-      transform: scale(0.98);
-    }
-
-    /* bus list container */
     .list-container {
       background: #f8fafd;
       border-radius: 32px;
@@ -121,27 +212,26 @@
       gap: 0.9rem;
     }
 
-    /* bus card */
     .bus-card {
       background: white;
       border-radius: 26px;
-      padding: 1rem 1.5rem;
+      padding: 0.9rem 1.2rem;
       display: flex;
       align-items: center;
       gap: 1rem;
-      box-shadow: 0 4px 10px rgba(0, 30, 60, 0.03);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
       border: 1px solid #e3edf6;
     }
 
     .bus-icon {
       background: #ddeeff;
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       border-radius: 20px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       color: #1d6091;
     }
 
@@ -151,7 +241,7 @@
 
     .bus-name {
       font-weight: 700;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       color: #103450;
       display: flex;
       align-items: center;
@@ -163,7 +253,7 @@
       background: #e7f0fe;
       padding: 0.2rem 1rem;
       border-radius: 30px;
-      font-size: 0.8rem;
+      font-size: 0.75rem;
       font-weight: 600;
       color: #1f5682;
     }
@@ -174,26 +264,15 @@
       gap: 6px;
       color: #46688b;
       font-weight: 500;
-      font-size: 0.95rem;
+      font-size: 0.85rem;
       margin-top: 4px;
-    }
-
-    .bus-time i {
-      color: #4280b5;
     }
 
     .empty-state {
       text-align: center;
-      padding: 2.5rem 1rem;
+      padding: 2rem 1rem;
       color: #7c99b8;
-      font-size: 1.1rem;
-    }
-
-    .empty-state i {
-      font-size: 2.8rem;
-      color: #b7d2ed;
-      margin-bottom: 1rem;
-      display: block;
+      font-size: 1rem;
     }
 
     .loader {
@@ -211,58 +290,310 @@
       animation: bounce 1.2s infinite;
     }
 
-    .loader div:nth-child(2) { animation-delay: 0.2s; }
-    .loader div:nth-child(3) { animation-delay: 0.4s; }
-
     @keyframes bounce {
       0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
       40% { transform: scale(1); opacity: 1; background: #326fa8; }
     }
 
-    .footer-note {
-      margin-top: 1.8rem;
+    /* ========== ADMIN VIEW STYLES (flat mono blue) ========== */
+    .admin-card {
+      background: #ffffff;
+      border-radius: 40px;
+      box-shadow: 0 25px 45px rgba(59, 130, 246, 0.12);
+      padding: 2rem 2rem 2.5rem;
+      border: 1px solid #e0e7ff;
+    }
+
+    .admin-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-bottom: 1.8rem;
+      border-bottom: 2px solid #3b82f620;
+      padding-bottom: 1rem;
+    }
+
+    .admin-header h3 {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #1e293b;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .bes5-badge {
+      background: #3b82f6;
+      color: white;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+    }
+
+    .route-selector select {
+      width: 100%;
+      padding: 0.8rem 1.5rem;
+      background: white;
+      border: 1.5px solid #3b82f6;
+      border-radius: 60px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #1e293b;
+      outline: none;
+      margin-bottom: 1.5rem;
+      appearance: none;
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%233b82f6' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+    }
+
+    .input-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.7rem;
+      background: #f8fafc;
+      padding: 1.2rem 1rem;
+      border-radius: 28px;
+      border: 1px solid #3b82f630;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input {
+      flex: 1 1 140px;
+      background: white;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 40px;
+      padding: 0.7rem 1.2rem;
+      font-size: 0.9rem;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      outline: none;
+      box-shadow: 0 0 0 3px #3b82f620;
+    }
+
+    .action-btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-bottom: 2rem;
+    }
+
+    .btn-flat {
+      background: #3b82f6;
+      border: none;
+      padding: 0.7rem 1.8rem;
+      border-radius: 60px;
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: white;
+      cursor: pointer;
+      transition: 0.15s;
+    }
+
+    .btn-flat:hover {
+      background: #2563eb;
+    }
+
+    .btn-flat.delete-all {
+      background: white;
+      color: #3b82f6;
+      border: 1.5px solid #3b82f6;
+    }
+
+    .admin-list-heading {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin: 1rem 0 1rem;
+      color: #1e293b;
+      border-left: 6px solid #3b82f6;
+      padding-left: 1rem;
+    }
+
+    .admin-bus-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      max-height: 460px;
+      overflow-y: auto;
+    }
+
+    .admin-bus-card {
+      background: #ffffff;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 24px;
+      padding: 0.9rem 1.2rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      border-left: 6px solid #3b82f6;
+    }
+
+    .admin-bus-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem 1.5rem;
+      align-items: baseline;
+    }
+
+    .admin-bus-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .admin-bus-number, .admin-bus-time {
+      background: #eef2ff;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
       font-size: 0.85rem;
-      color: #9bb3cc;
+    }
+
+    .card-actions button {
+      background: white;
+      border: 1.5px solid #3b82f6;
+      border-radius: 40px;
+      padding: 0.3rem 1rem;
+      font-weight: 600;
+      margin: 0 0.2rem;
+      cursor: pointer;
+    }
+
+    .card-actions button:hover {
+      background: #3b82f6;
+      color: white;
+    }
+
+    .empty-message {
+      background: #f8fafc;
+      padding: 1.8rem;
+      border-radius: 28px;
       text-align: center;
+      color: #64748b;
+      border: 2px dashed #3b82f6;
+    }
+
+    .footer-note {
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      text-align: center;
+      color: #9bb3cc;
+    }
+
+    @media (max-width: 780px) {
+      .nav-bar {
+        padding: 0.8rem 1rem;
+      }
+      .logo-area h2 {
+        font-size: 1.2rem;
+      }
+      .nav-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+      }
+      .main-container {
+        padding: 0 1rem;
+        margin: 1rem auto;
+      }
+      .public-card, .admin-card {
+        padding: 1.3rem;
+      }
     }
   </style>
 </head>
 <body>
-<div class="card">
-  <h1><i class="fas fa-bus" style="color: #2a6a9e;"></i> Bus routes</h1>
-  <div class="sub">Tharad – Lakhani · live departure</div>
 
-  <!-- two buttons only -->
-  <div class="route-row">
-    <button class="route-btn" id="btnTharadLakhani">
-      <i class="fas fa-arrow-right"></i> Tharad → Lakhani
-    </button>
-    <button class="route-btn" id="btnLakhaniTharad">
-      <i class="fas fa-arrow-left"></i> Lakhani → Tharad
-    </button>
+<!-- MODERN NAVIGATION BAR -->
+<div class="nav-bar">
+  <div class="logo-area">
+    <i class="fas fa-bus"></i>
+    <h2>Bus Routes<span style="font-weight:400"></span></h2>
   </div>
+  <div class="nav-buttons">
+    <button class="nav-btn" id="navPublicBtn"><i class="fas fa-eye"></i> Public View</button>
+    <button class="nav-btn" id="navAdminBtn"><i class="fas fa-user-shield"></i> Admin Panel</button>
+  </div>
+</div>
 
-  <!-- bus list area -->
-  <div class="list-container">
-    <div class="list-header">
-      <i class="fas fa-list-ul"></i> <span id="routeLabel">select a route</span>
-    </div>
-    <div id="busList" class="bus-list">
-      <!-- empty state appears here -->
-      <div class="empty-state">
-        <i class="fas fa-hand-pointer"></i>
-        <p>click a route to see buses</p>
+<div class="main-container">
+  <!-- PUBLIC VIEW PANEL -->
+  <div id="publicView" class="view-panel active-panel">
+    <div class="public-card">
+      <h1><i class="fas fa-map-marked-alt"></i> Live Schedules</h1>
+      <div class="sub">Tharad – Lakhani · realtime departures</div>
+
+      <div class="route-row">
+        <button class="route-btn" id="btnTharadLakhani">
+          <i class="fas fa-arrow-right"></i> Tharad → Lakhani
+        </button>
+        <button class="route-btn" id="btnLakhaniTharad">
+          <i class="fas fa-arrow-left"></i> Lakhani → Tharad
+        </button>
+      </div>
+
+      <div class="list-container">
+        <div class="list-header">
+          <i class="fas fa-bus-simple"></i> <span id="routeLabel">select a route</span>
+        </div>
+        <div id="busList" class="bus-list">
+          <div class="empty-state">
+            <i class="fas fa-hand-pointer"></i>
+            <p>click a route to see buses</p>
+          </div>
+        </div>
+      </div>
+      <div class="footer-note">
+        <i class="fas fa-database"></i> live sync · auto updates
       </div>
     </div>
   </div>
-  <div class="footer-note">
-    <i class="fas fa-database"></i> data updates automatically
+
+  <!-- ADMIN VIEW PANEL (password protected) -->
+  <div id="adminView" class="view-panel">
+    <div class="admin-card">
+      <div class="admin-header">
+        <h3><i class="fas fa-tools"></i> ADMIN DASHBOARD <span class="bes5-badge">MS09</span></h3>
+        <button id="adminLogoutBtnNav" class="logout-btn" style="background:none; border:1.5px solid #3b82f6; padding:0.5rem 1.5rem; border-radius:40px; color:#3b82f6; font-weight:600; cursor:pointer;">Logout</button>
+      </div>
+
+      <div class="route-selector">
+        <select id="adminRoute">
+          <option value="tharad-lakhani">🚌 Tharad → Lakhani</option>
+          <option value="lakhani-tharad">🚌 Lakhani → Tharad</option>
+        </select>
+      </div>
+
+      <div class="input-group">
+        <input id="busName" placeholder="Bus name (e.g. Express)" type="text">
+        <input id="busNumber" placeholder="Bus number (e.g. GJ08 1234)" type="text">
+        <input id="busTime" placeholder="Time (e.g. 06:45 AM)" type="text">
+      </div>
+
+      <div class="action-btns">
+        <button class="btn-flat" id="addBusBtn">➕ Add bus</button>
+        <button class="btn-flat delete-all" id="deleteAllBtn">🗑️ Delete all</button>
+      </div>
+
+      <h3 class="admin-list-heading">📋 Manage Buses</h3>
+      <div id="adminBusList" class="admin-bus-list">
+        <div class="empty-message">🔐 Click "Login to Admin" and enter password (4698)</div>
+      </div>
+      <div class="footer-note">
+        <i class="fas fa-lock"></i> secure CRUD · changes reflect live on public view
+      </div>
+    </div>
   </div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-app.js";
-  import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
+  import { getDatabase, ref, onValue, set, get, remove } from "https://www.gstatic.com/firebasejs/12.10.0/firebase-database.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyA6uiCzTx_ZJIWYNyTbDDe2Jv4eaJ-XF_A",
@@ -274,104 +605,212 @@
   const app = initializeApp(firebaseConfig);
   const db = getDatabase(app);
 
-  // elements
+  // ---------- NAVIGATION LOGIC ----------
+  const publicPanel = document.getElementById('publicView');
+  const adminPanel = document.getElementById('adminView');
+  const navPublic = document.getElementById('navPublicBtn');
+  const navAdmin = document.getElementById('navAdminBtn');
+
+  function setActivePanel(panel) {
+    publicPanel.classList.remove('active-panel');
+    adminPanel.classList.remove('active-panel');
+    if (panel === 'public') {
+      publicPanel.classList.add('active-panel');
+      navPublic.classList.add('active');
+      navAdmin.classList.remove('active');
+    } else {
+      adminPanel.classList.add('active-panel');
+      navAdmin.classList.add('active');
+      navPublic.classList.remove('active');
+      // auto-trigger admin auth check if not yet authenticated
+      if (!window.adminAuthenticatedFlag) {
+        attemptAdminAuth();
+      } else if (window.adminAuthenticatedFlag && adminUnsubscribe === null) {
+        loadAdminData();
+      }
+    }
+  }
+
+  navPublic.addEventListener('click', () => setActivePanel('public'));
+  navAdmin.addEventListener('click', () => setActivePanel('admin'));
+
+  // ---------- PUBLIC VIEW (same as original, realtime) ----------
   const busListDiv = document.getElementById('busList');
-  const routeLabel = document.getElementById('routeLabel');
+  const routeLabelSpan = document.getElementById('routeLabel');
   const btnTharad = document.getElementById('btnTharadLakhani');
   const btnLakhani = document.getElementById('btnLakhaniTharad');
+  let currentPublicUnsub = null;
 
-  let currentListener = null;   // to detach previous
-
-  // small helper: escape html (just in case)
-  function escapeHtml(unsafe) {
-    if (!unsafe) return '';
-    return String(unsafe)
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;')
-      .replace(/'/g, '&#039;');
-  }
-
-  // display loader
-  function showLoader() {
-    busListDiv.innerHTML = `<div class="loader"><div></div><div></div><div></div></div>`;
-  }
-
-  // render bus cards
-  function renderBuses(buses) {
-    if (!buses || buses.length === 0) {
-      busListDiv.innerHTML = `<div class="empty-state"><i class="fas fa-bus-slash"></i><p>no buses found</p></div>`;
-      return;
-    }
-
+  function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;});}
+  function showLoader() { busListDiv.innerHTML = `<div class="loader"><div></div><div></div><div></div></div>`; }
+  
+  function renderPublicBuses(buses) {
+    if (!buses || buses.length === 0) { busListDiv.innerHTML = `<div class="empty-state"><i class="fas fa-bus-slash"></i><p>no buses found</p></div>`; return; }
     let html = '';
     buses.forEach(bus => {
       const name = escapeHtml(bus.name || 'Express');
       const number = escapeHtml(bus.number || '');
       const time = escapeHtml(bus.time || '— : —');
-      html += `
-        <div class="bus-card">
-          <div class="bus-icon"><i class="fas fa-bus"></i></div>
-          <div class="info">
-            <div class="bus-name">
-              ${name}
-              <span class="bus-number">${number}</span>
-            </div>
-            <div class="bus-time">
-              <i class="fas fa-clock"></i> ${time}
-            </div>
-          </div>
-        </div>
-      `;
+      html += `<div class="bus-card"><div class="bus-icon"><i class="fas fa-bus"></i></div><div class="info"><div class="bus-name">${name}<span class="bus-number">${number}</span></div><div class="bus-time"><i class="fas fa-clock"></i> ${time}</div></div></div>`;
     });
     busListDiv.innerHTML = html;
   }
 
-  // load a route from firebase
-  function loadRoute(routeKey, displayName) {
-    // update header label
-    routeLabel.innerText = displayName;
-
-    // detach any previous listener
-    if (currentListener) {
-      currentListener();
-      currentListener = null;
-    }
-
+  function loadPublicRoute(routeKey, displayName) {
+    routeLabelSpan.innerText = displayName;
+    if(currentPublicUnsub) currentPublicUnsub();
     showLoader();
-
     const dbRef = ref(db, routeKey);
-    // attach new listener
-    currentListener = onValue(dbRef, (snapshot) => {
-      const data = snapshot.val();
-      let buses = [];
-      if (Array.isArray(data)) {
-        buses = data;
-      } else if (data && typeof data === 'object') {
-        // firebase often returns object with numeric keys
-        buses = Object.values(data);
-      }
-      renderBuses(buses);
-    }, (error) => {
-      console.warn(error);
-      busListDiv.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i> error loading</div>`;
+    currentPublicUnsub = onValue(dbRef, (snap) => {
+      let data = snap.val();
+      let buses = Array.isArray(data) ? data : (data && typeof data === 'object' ? Object.values(data) : []);
+      renderPublicBuses(buses);
+    });
+  }
+  btnTharad.addEventListener('click', () => loadPublicRoute('tharad-lakhani', 'Tharad → Lakhani'));
+  btnLakhani.addEventListener('click', () => loadPublicRoute('lakhani-tharad', 'Lakhani → Tharad'));
+
+  // ---------- ADMIN MODULE (password 4698) ----------
+  let adminAuthenticated = false;
+  let adminUnsubscribe = null;
+  const adminRouteSelect = document.getElementById('adminRoute');
+  const adminBusListDiv = document.getElementById('adminBusList');
+  const addBusBtn = document.getElementById('addBusBtn');
+  const deleteAllBtn = document.getElementById('deleteAllBtn');
+  const logoutAdminBtn = document.getElementById('adminLogoutBtnNav');
+  const nameInput = document.getElementById('busName');
+  const numberInput = document.getElementById('busNumber');
+  const timeInput = document.getElementById('busTime');
+
+  window.adminAuthenticatedFlag = false;
+
+  async function getCurrentBuses(routeKey) {
+    const snap = await get(ref(db, routeKey));
+    let data = snap.val();
+    if(Array.isArray(data)) return data;
+    if(data && typeof data === 'object') return Object.values(data);
+    return [];
+  }
+  async function setBuses(routeKey, busesArray) { await set(ref(db, routeKey), busesArray); }
+
+  function renderAdminList(buses, routeKey) {
+    if(!adminAuthenticated) { adminBusListDiv.innerHTML = `<div class="empty-message"><i class="fas fa-lock"></i> Session expired. Re-login required.</div>`; return; }
+    if(!buses || buses.length === 0) { adminBusListDiv.innerHTML = `<div class="empty-message">🚏 No buses — add new buses above.</div>`; return; }
+    let html = '';
+    buses.forEach((bus, idx) => {
+      html += `
+        <div class="admin-bus-card" data-idx="${idx}">
+          <div class="admin-bus-info">
+            <span class="admin-bus-name">🚍 ${escapeHtml(bus.name || '—')}</span>
+            <span class="admin-bus-number">#${escapeHtml(bus.number || '—')}</span>
+            <span class="admin-bus-time">⏱️ ${escapeHtml(bus.time || '—')}</span>
+          </div>
+          <div class="card-actions">
+            <button class="editAdminBtn" data-idx="${idx}">✎ Edit</button>
+            <button class="delAdminBtn" data-idx="${idx}">🗑️ Del</button>
+          </div>
+        </div>
+      `;
+    });
+    adminBusListDiv.innerHTML = html;
+    document.querySelectorAll('.editAdminBtn').forEach(btn => {
+      btn.addEventListener('click', async (e) => { const i = parseInt(btn.dataset.idx); await editBusByIndex(i, routeKey); });
+    });
+    document.querySelectorAll('.delAdminBtn').forEach(btn => {
+      btn.addEventListener('click', async (e) => { const i = parseInt(btn.dataset.idx); await deleteBusByIndex(i, routeKey); });
     });
   }
 
-  // event listeners for buttons
-  btnTharad.addEventListener('click', () => {
-    loadRoute('tharad-lakhani', 'Tharad → Lakhani');
-  });
+  async function editBusByIndex(idx, routeKey) {
+    if(!adminAuthenticated) return;
+    const buses = await getCurrentBuses(routeKey);
+    if(idx<0 || idx>=buses.length) return;
+    const bus = buses[idx];
+    const newName = prompt("Edit Bus Name", bus.name);
+    const newNumber = prompt("Edit Bus Number", bus.number);
+    const newTime = prompt("Edit Time (e.g. 10:30 AM)", bus.time);
+    if(newName && newNumber && newTime) {
+      buses[idx] = { name: newName, number: newNumber, time: newTime };
+      await setBuses(routeKey, buses);
+    }
+  }
+  async function deleteBusByIndex(idx, routeKey) {
+    if(!adminAuthenticated) return;
+    const buses = await getCurrentBuses(routeKey);
+    if(idx>=0 && idx<buses.length) { buses.splice(idx,1); await setBuses(routeKey, buses); }
+  }
+  async function addBusHandler() {
+    if(!adminAuthenticated) { alert("Please login as admin first."); return; }
+    const name = nameInput.value.trim(), number = numberInput.value.trim(), time = timeInput.value.trim();
+    if(!name || !number || !time) { alert("Fill all fields"); return; }
+    const route = adminRouteSelect.value;
+    const buses = await getCurrentBuses(route);
+    buses.push({ name, number, time });
+    await setBuses(route, buses);
+    nameInput.value = ''; numberInput.value = ''; timeInput.value = '';
+  }
+  async function deleteAllHandler() {
+    if(!adminAuthenticated) return;
+    const route = adminRouteSelect.value;
+    if(confirm("⚠️ Delete ALL buses from this route?")) { await remove(ref(db, route)); }
+  }
+  function loadAdminData() {
+    if(!adminAuthenticated) return;
+    if(adminUnsubscribe) adminUnsubscribe();
+    const route = adminRouteSelect.value;
+    const routeRef = ref(db, route);
+    adminUnsubscribe = onValue(routeRef, (snap) => {
+      if(!adminAuthenticated) return;
+      let data = snap.val();
+      let buses = Array.isArray(data) ? data : (data && typeof data === 'object' ? Object.values(data) : []);
+      renderAdminList(buses, route);
+    });
+  }
 
-  btnLakhani.addEventListener('click', () => {
-    loadRoute('lakhani-tharad', 'Lakhani → Tharad');
-  });
+  function attemptAdminAuth() {
+    const pwd = prompt("🔐 ADMIN ACCESS · Enter password:");
+    if(pwd === "4698") {
+      adminAuthenticated = true;
+      window.adminAuthenticatedFlag = true;
+      loadAdminData();
+      // re-trigger route change listener
+      adminRouteSelect.removeEventListener('change', adminRouteChangeHandler);
+      adminRouteSelect.addEventListener('change', adminRouteChangeHandler);
+    } else {
+      adminAuthenticated = false;
+      window.adminAuthenticatedFlag = false;
+      if(adminUnsubscribe) adminUnsubscribe();
+      adminBusListDiv.innerHTML = `<div class="empty-message">⛔ Access Denied. Wrong password. <br> <button id="retryAdminAuth" style="margin-top:12px; background:#3b82f6; color:white; border:none; padding:6px 18px; border-radius:30px;">Try Again</button></div>`;
+      const retryBtn = document.getElementById('retryAdminAuth');
+      if(retryBtn) retryBtn.onclick = () => { attemptAdminAuth(); };
+    }
+  }
 
-  // clean up on page unload
-  window.addEventListener('beforeunload', () => {
-    if (currentListener) currentListener();
+  function adminRouteChangeHandler() { if(adminAuthenticated) loadAdminData(); }
+  function logoutAdmin() {
+    adminAuthenticated = false;
+    window.adminAuthenticatedFlag = false;
+    if(adminUnsubscribe) adminUnsubscribe();
+    adminBusListDiv.innerHTML = `<div class="empty-message"><i class="fas fa-sign-out-alt"></i> Logged out. <button id="reloginAdminBtn" style="background:#3b82f6; color:white; border:none; padding:6px 15px; border-radius:30px; margin-top:10px;">Login Again</button></div>`;
+    const relog = document.getElementById('reloginAdminBtn');
+    if(relog) relog.onclick = () => { attemptAdminAuth(); };
+  }
+
+  addBusBtn.addEventListener('click', addBusHandler);
+  deleteAllBtn.addEventListener('click', deleteAllHandler);
+  logoutAdminBtn.addEventListener('click', logoutAdmin);
+  
+  // if admin panel is opened via nav, try auth automatically
+  const observer = new MutationObserver(() => {
+    if(adminPanel.classList.contains('active-panel') && !window.adminAuthenticatedFlag) {
+      attemptAdminAuth();
+    }
+  });
+  observer.observe(adminPanel, { attributes: true, attributeFilter: ['class'] });
+  // initial check in case admin is default hidden
+  window.addEventListener('load', () => {
+    loadPublicRoute('tharad-lakhani', 'Tharad → Lakhani');
   });
 </script>
 </body>
-  </html>
+</html>
